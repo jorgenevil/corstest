@@ -1,0 +1,13 @@
+{
+  "name": "corst-test-client",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app-client.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0"
+  }
+}

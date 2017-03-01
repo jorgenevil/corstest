@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<HTML>
+  <head>
+    <title>{{{title}}}</title>
+  </head>
+  <body>{{{body}}}</body>
+  <script type="text/javascript">
+
+    function get (path, cb) {
+      var xmlhttp = new XMLHttpRequest()
+      xmlhttp.open("GET", path, true)
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
+          if (xmlhttp.status == 200) cb(null, xmlhttp.responseText);
+          else cb(xmlhttp.status, xmlhttp.responseText)
+        }
+      }
+      xmlhttp.send()
+    }
+
+    get('http://localhost:8033/', function() {
+      get('http://localhost:8033/cookiemonster', function(status, uuid) {
+        console.log('cookiemonster', uuid)
+      })
+    })
+
+  </script>
+</HTML>
