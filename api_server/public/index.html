@@ -1,0 +1,51 @@
+<HTML>
+<head>
+</head>
+<body>
+  Cookie test (check console)
+</body>
+<script type="text/javascript">
+
+function get (path, cb) {
+  var xmlhttp = new XMLHttpRequest()
+  xmlhttp.open("GET", path, true)
+  xmlhttp.withCredentials = true
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4) {
+      if (xmlhttp.status == 200) cb(null, xmlhttp.responseText);
+      else cb(xmlhttp.status, xmlhttp.responseText)
+    }
+  }
+  xmlhttp.send()
+}
+
+
+function post(data, path, callback) {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST", path, true);
+  xmlhttp.setRequestHeader('Content-type', 'application/json');
+  xmlhttp.withCredentials = true;
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState === 4) {
+      if ( xmlhttp.status === 200 || xmlhttp.status === 201 ) {
+        return callback(null, xmlhttp.responseText);
+      };
+      // IF user has been logged out
+      if (xmlhttp.status === 401 && JSON.parse(xmlhttp.responseText).logOut ) {
+        return window.location.href = '/';
+      };
+      callback(xmlhttp.status, xmlhttp.responseText);
+    }
+  }.bind(this);
+  var _data = typeof data === 'string' ? data : JSON.stringify(data);
+  xmlhttp.send(_data);
+}
+
+post({}, 'http://localhost:8033/api/user/login', function() {
+  get('http://localhost:8033/api/user/logout', function(status, uuid) {
+    console.log('cookiemonster', uuid)
+  })
+})
+
+</script>
+</HTML>

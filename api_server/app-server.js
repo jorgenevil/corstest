@@ -39,7 +39,12 @@ app.use(exSession)
 // ********
 // * CORS *
 // ********
+const whitelist = ['http://localhost:8033', 'http://localhost:8043']
 const corsOptions = {
+  // origin: function (origin, callback) {
+  //   var originIsWhitelisted = whitelist.indexOf(origin) !== -1
+  //   callback(originIsWhitelisted ? null : 'Bad Request', originIsWhitelisted)
+  // },
   origin: true,
   credentials: true
 }
